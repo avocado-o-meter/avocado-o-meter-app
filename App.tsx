@@ -21,18 +21,18 @@ export default function App() {
       const fd = new FormData();
       const photo = response?.assets[0];
 
+      let cleanUri =
+        Platform.OS === 'ios' ? photo.uri.replace('file://', '') : photo.uri;
+
       fd.append('upload', {
         name: photo.fileName,
         type: photo.type,
-        uri:
-          Platform.OS === 'ios' ? photo.uri.replace('file://', '') : photo.uri,
+        uri: cleanUri,
       });
       axios
-        .post(
-          'http://avocadoometer-env-1.eba-mybm88md.us-east-2.elasticbeanstalk.com/predict/fruit',
-          fd,
-        )
-        .then(res => setPrediction(`Your image contains a ${res.data}.`));
+        .post('https://avocado-o-meter-server.herokuapp.com/predict/fruit', fd)
+        .then(resp => setPrediction(`Your image contains a ${resp.data}.`))
+        .catch(err => setPrediction(JSON.stringify(err)));
     }
   }, [response]);
   const onButtonPress = React.useCallback((type, options) => {
@@ -123,6 +123,8 @@ const actions: Action[] = [
     type: 'capture',
     options: {
       quality: 1,
+      maxWidth: 500,
+      maxHeight: 400,
       saveToPhotos: true,
       mediaType: 'photo',
       includeBase64: false,
