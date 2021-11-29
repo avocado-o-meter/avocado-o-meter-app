@@ -1,7 +1,7 @@
 ![ts](https://badgen.net/badge/-/TypeScript/blue?icon=typescript&label)
 ![types](https://badgen.net/npm/types/react)
 
-# 🥑 avocad-o-meter - v1.0.0
+# 🥑 avocado-o-meter - v1.0.0
 
 ## Tech Stack
 - 🔥 React Native CLI
